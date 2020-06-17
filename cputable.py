@@ -1,9 +1,8 @@
+import re
+import pandas as pd
 
 def saveDictionary(filename='dict.txt'):
-    import pandas as pd
-    import re
     url = 'https://www.cpubenchmark.net/CPU_mega_page.html'
-    
     tables = pd.read_html(url)
     table = tables[3].values.tolist()[::2] 
     print(table[100])   
@@ -15,10 +14,8 @@ def saveDictionary(filename='dict.txt'):
         f.write(str(z))
         
     return z
-        
+
 def loadDictionary(filename='dict.txt', sockets=['AM3', 'AM2']):
-    from numpy import nan
-    import re
     with open(filename, 'r') as f:
         d = eval(f.read())
     z = dict( [key, d[key]] for key in d for socket in sockets if re.search(socket, str(d[key][1])) )
@@ -26,7 +23,6 @@ def loadDictionary(filename='dict.txt', sockets=['AM3', 'AM2']):
     return z
 
 if __name__ == '__main__':
-    import re
     iseries = re.compile('i[3579]\s*-*\s*\d{3,4}\s*[(p)ktcsbehr(hq)(te)(eq)(kf)]*', re.I)
     pentium = re.compile('g\s*\d{3,4}\s*[(te)t]*', re.I)
     xeons   = re.compile('[elx]3*\s*-*\s*\d{4}[lg]*', re.I)
